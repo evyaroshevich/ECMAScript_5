@@ -1,0 +1,23 @@
+body{
+	margin:30px;
+	background-color: rgba(170,170,170,0.4);
+}
+h1{
+	text-align: center;
+	margin:20px;
+	font-weight: bold;
+}
+tr, th{
+	text-align: center;
+	vertical-align: middle;
+}
+.btn{
+	margin:10px;
+}
+.table{
+	background-color:white;
+}
+
+.action:hover{
+	text-decoration: underline;
+}

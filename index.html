@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<link rel="stylesheet" href="css/main.css">
+	<script type="text/javascript" src="js/main.js"></script>
+<<<<<<< HEAD
+=======
+	<script type="text/javascript" src="dpd.js"></script>
+>>>>>>> +deployd. release
+	<title>Homework2</title>
+</head>
+<body>
+	<h1>((-(-_(-_-(<span style="color: #039be5">'</span>O _ O)-_-)_-)-))</h1>
+	<button class="btn btn-primary" data-toggle="modal" data-target="#modalrs" onclick="document.getElementById('modal-title').innerHTML = 'Новый счет'; document.getElementById('create_score').innerHTML = 'Создать', refreshModal(), isCreate(true)">Создать</button>
+<<<<<<< HEAD
+=======
+	<button class="btn btn-primary" onclick="download()">Загрузить с БД</button>
+	<button class="btn btn-primary" onclick="upload()">Выгрузить в БД</button>
+>>>>>>> +deployd. release
+	<div class="table-responsive"> 
+		<table id="table "class="table table-hover table-bordered align-middle">
+			<thead>
+				<tr class="active success align-middle">
+					<th>Номер<br/>счета</th>
+					<th>Тип<br/>вклада</th>
+					<th>Статус</th>
+					<th>Текущий<br/>баланс</th>
+					<th>Срок<br/>вклада</th>
+					<th>Процентная<br/>ставка</th>
+					<th>Дата<br/>вклада</th>				
+					<th>Действия</th>
+				</tr>
+			</thead>
+			<tbody>
+			</tbody>
+		</table>
+	</div>
+	
+	<div id="modalrs" class="modal fade" tabindex="-1"> 
+		<div class="modal-dialog modal-md" > 
+			<div class="modal-content"> 
+				<div class="modal-header"> 
+					<button class="close" data-dismiss="modal">
+						<i class="glyphicon glyphicon-remove"></i> 
+					</button>
+						<h4 id="modal-title" class="modal-title">Новый счет</h4>
+				</div>
+				<div class="modal-body">
+					<form role="form">
+						<div class="form-group">
+							<label for="n_score">Номер счета</label>
+							<input type="text" class="form-control" id="n_score" placeholder="Введите 6 цифр" onchange="validData('n_score')">
+						</div>
+						<div class="form-group">
+							<label for="t_score">Тип вклада</label>
+							<select class="form-control" id="t_score" onchange="selectT()">
+								<option >Расчетный</option>
+								<option >Накопительный</option>
+							</select>
+						</div>
+						<div class="form-group">
+							<label for="pt_score">Подтип вклада</label>
+							<select class="form-control" id="pt_score">
+								<option >Расходно-пополняемый</option>
+								<option >Расходный</option>
+							</select>
+						</div>
+						<div class="checkbox">
+							<label><input type="checkbox" id="b_score" value="block">Заблокирован</label>
+						</div>
+						<div class="form-group">
+							<label for="current_score">Сумма вклада</label>
+							<input type="text" class="form-control" id="current_score" placeholder="BYN" 
+							onchange="validData('current_score')">
+						</div>
+						<div class="form-group">
+							<label for="min_balance">Минимальный остаток</label>
+							<input type="text" class="form-control" id="min_balance" placeholder="BYN" 
+							onchange="validData('min_balance')">
+						</div>
+						<div class="form-group hidden">
+							<label for="min_refill">Минимальная сумма пополнения</label>
+							<input type="text" class="form-control" id="min_refill" placeholder="BYN" 
+							onchange="validData('min_refill')">
+						</div>
+						<div class="form-group hidden">
+							<label for="max_refill">Максимальная сумма пополнения</label>
+							<input type="text" class="form-control" id="max_refill" placeholder="BYN" 
+							onchange="validData('max_refill')">
+						</div>
+						<div class="form-group">
+							<label for="term_score">Срок вклада</label>
+							<select class="form-control" id="term_score" onchange="computeTerm()">
+								<option >3 месяца</option>
+								<option >6 месяцев</option>
+								<option >1 год</option>
+								<option >3 года</option>
+							</select>
+						</div>
+						<div class="form-group">
+							<label for="percent">Процентная ставка</label>
+							<input type="text" class="form-control" id="percent" value="1,5%" disabled>
+						</div>
+						<div class="form-group">
+							<label for="date_score">Дата вклада</label>
+							<input type="date" class="form-control" id="date_score" onchange="validData('date_score')">
+						</div>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button class="btn btn-success" id="create_score" onclick="createScore()" disabled>
+							Создать	
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+<script src="http://code.jquery.com/jquery-3.3.1.slim.min.js"></script> 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script> 
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</body>
+</html>

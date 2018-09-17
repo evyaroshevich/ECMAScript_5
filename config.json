@@ -1,0 +1,93 @@
+{
+	"type": "Collection",
+	"properties": {
+		"number": {
+			"name": "number",
+			"type": "number",
+			"typeLabel": "number",
+			"required": true,
+			"id": "number",
+			"order": 0
+		},
+		"type": {
+			"name": "type",
+			"type": "string",
+			"typeLabel": "string",
+			"required": true,
+			"id": "type",
+			"order": 1
+		},
+		"podtip": {
+			"name": "podtip",
+			"type": "string",
+			"typeLabel": "string",
+			"required": false,
+			"id": "podtip",
+			"order": 2
+		},
+		"status": {
+			"name": "status",
+			"type": "boolean",
+			"typeLabel": "boolean",
+			"required": false,
+			"id": "status",
+			"order": 3
+		},
+		"current": {
+			"name": "current",
+			"type": "number",
+			"typeLabel": "number",
+			"required": true,
+			"id": "current",
+			"order": 4
+		},
+		"minbalance": {
+			"name": "minbalance",
+			"type": "number",
+			"typeLabel": "number",
+			"required": false,
+			"id": "minbalance",
+			"order": 5
+		},
+		"minrefill": {
+			"name": "minrefill",
+			"type": "number",
+			"typeLabel": "number",
+			"required": false,
+			"id": "minrefill",
+			"order": 6
+		},
+		"maxrefill": {
+			"name": "maxrefill",
+			"type": "number",
+			"typeLabel": "number",
+			"required": false,
+			"id": "maxrefill",
+			"order": 7
+		},
+		"term": {
+			"name": "term",
+			"type": "string",
+			"typeLabel": "string",
+			"required": true,
+			"id": "term",
+			"order": 8
+		},
+		"percent": {
+			"name": "percent",
+			"type": "string",
+			"typeLabel": "string",
+			"required": true,
+			"id": "percent",
+			"order": 9
+		},
+		"date": {
+			"name": "date",
+			"type": "date",
+			"typeLabel": "date",
+			"required": true,
+			"id": "date",
+			"order": 10
+		}
+	}
+}
