@@ -2,16 +2,11 @@ var chk_n_score=chk_current_score = chk_min_refill = chk_max_refill = chk_min_ba
 var g_id;
 var score = [];
 var create;
-<<<<<<< HEAD
-=======
 
->>>>>>> +deployd. release
 function isCreate(bool){
 	create = bool;
 }
 
-<<<<<<< HEAD
-=======
 function upload(){
 	var xhr = new XMLHttpRequest();
 	var upl = [];
@@ -66,7 +61,6 @@ function download(){
 	}
 }
 
->>>>>>> +deployd. release
 function Score (number, type, status, current, term, percent, date){
 	var _number = number;
 	var _type = type;
@@ -295,9 +289,6 @@ function drawBorder(parent, status){
 		parent.classList.remove("has-success");
 		parent.classList.add("has-error");
 	}
-<<<<<<< HEAD
-
-=======
 }
 
 function createTableFromDB(obj){
@@ -323,7 +314,6 @@ function createTableFromDB(obj){
 		td[5].innerHTML = obj.percent;
 		td[6].innerHTML = obj.date;
 		td[7].innerHTML = str;
->>>>>>> +deployd. release
 }
 
 function createScore(){
@@ -409,22 +399,14 @@ function refreshModal(){
 	$('#create_score').prop("disabled", true);
 	$('#t_score').prop("disabled", false);
 	$("#modalrs").modal('hide');
-<<<<<<< HEAD
-
-=======
->>>>>>> +deployd. release
 }
 
 function aboutForm(this_){
 	g_id = $(this_).parent().parent().attr("id");	
 	for (let i=0; i<Score.getCount(); i++){
-<<<<<<< HEAD
-			if (score[i].getNumber()==g_id.substring(2)){
-=======
 		console.log(score[i].getNumber());
 			if (score[i].getNumber()==g_id.substring(2)){
 				var stat = score[i].getStatus()?"Заблокирован":"Активный";
->>>>>>> +deployd. release
 				var newWin = window.open();
 				newWin.document.write("Номер счета: "+ score[i].getNumber()+"<br>");
 				newWin.document.write("Тип счёта: "+ score[i].getType()+"<br>");
@@ -432,11 +414,7 @@ function aboutForm(this_){
 					newWin.document.write("Подтип счета: "+ score[i].getPodtip()+"<br>");
 					newWin.document.write("Минимальный баланс: "+ score[i].getMinbalance()+"<br>");
 				}
-<<<<<<< HEAD
-				newWin.document.write("Статус: "+ score[i].getStatus()?"Заблокирован":"Активный"+"<br>");
-=======
 				newWin.document.write("Статус: "+ stat +"<br>");
->>>>>>> +deployd. release
 				newWin.document.write("Текущая сумма: "+ score[i].getCurrent()+"<br>");
 				if (score[i].getType()=="Накопительный"){	
 					newWin.document.write("Сумма минимального пополнения: "+ score[i].getMinrefill()+"<br>");
@@ -445,10 +423,6 @@ function aboutForm(this_){
 				newWin.document.write("Cрок вклада: "+ score[i].getTerm()+"<br>");
 				newWin.document.write("Процентная ставка: "+ score[i].getPercent()+"<br>");
 				newWin.document.write("Дата вклада: "+ score[i].getDate()+"<br>");
-<<<<<<< HEAD
-
-=======
->>>>>>> +deployd. release
 		}
 	}
 }
@@ -478,19 +452,11 @@ function deleteForm(this_){
 	elem = document.getElementById(parent);
 	if(confirm('Вы уверены, что хотите удалить запись?')){
 		elem.remove();
-<<<<<<< HEAD
-		/*for (let i=0; i<Score.getCount(); i++){ //todo
-=======
 		for (let i=0; i<Score.getCount(); i++){
->>>>>>> +deployd. release
 			if (score[i].getNumber()==parent.substring(2)){
 				score.splice[i,1];
 				Score.counter--;
 			}
-<<<<<<< HEAD
-		}*/
-=======
 		}
->>>>>>> +deployd. release
 	}
 }
