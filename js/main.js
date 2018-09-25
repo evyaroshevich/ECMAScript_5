@@ -1,15 +1,125 @@
-var chk_n_score=chk_current_score = chk_min_refill = chk_max_refill = chk_min_balance = chk_date_score = false;
-var g_id;
-var score = [];
-var create;
+let chk_n_score=chk_current_score = chk_min_refill = chk_max_refill = chk_min_balance = chk_date_score = false;
+let g_id;
+let score = [];
+let create;
+
+document.addEventListener('DOMContentLoaded', createHTML);
+
+function createHTML(){
+	const str = `<h1>((-(-_(-_-(<span style="color: #039be5">'</span>O _ O)-_-)_-)-))</h1>
+	<button class="btn btn-primary" data-toggle="modal" data-target="#modalrs" onclick="document.getElementById('modal-title').innerHTML = 'Новый счет'; document.getElementById('create_score').innerHTML = 'Создать', refreshModal(), isCreate(true)">Создать</button>
+	<button class="btn btn-primary" onclick="download()">Загрузить с БД</button>
+	<button class="btn btn-primary" onclick="upload()">Выгрузить в БД</button>
+	<div class="table-responsive"> 
+		<table id="table "class="table table-hover table-bordered align-middle">
+			<thead>
+				<tr class="active success align-middle">
+					<th>Номер<br/>счета</th>
+					<th>Тип<br/>вклада</th>
+					<th>Статус</th>
+					<th>Текущий<br/>баланс</th>
+					<th>Срок<br/>вклада</th>
+					<th>Процентная<br/>ставка</th>
+					<th>Дата<br/>вклада</th>				
+					<th>Действия</th>
+				</tr>
+			</thead>
+			<tbody>
+			</tbody>
+		</table>
+	</div>
+	
+	<div id="modalrs" class="modal fade" tabindex="-1"> 
+		<div class="modal-dialog modal-md" > 
+			<div class="modal-content"> 
+				<div class="modal-header"> 
+					<button class="close" data-dismiss="modal">
+						<i class="glyphicon glyphicon-remove"></i> 
+					</button>
+						<h4 id="modal-title" class="modal-title">Новый счет</h4>
+				</div>
+				<div class="modal-body">
+					<form role="form">
+						<div class="form-group">
+							<label for="n_score">Номер счета</label>
+							<input type="text" class="form-control" id="n_score" placeholder="Введите 6 цифр" onchange="validData('n_score')">
+						</div>
+						<div class="form-group">
+							<label for="t_score">Тип вклада</label>
+							<select class="form-control" id="t_score" onchange="selectT()">
+								<option >Расчетный</option>
+								<option >Накопительный</option>
+							</select>
+						</div>
+						<div class="form-group">
+							<label for="pt_score">Подтип вклада</label>
+							<select class="form-control" id="pt_score">
+								<option >Расходно-пополняемый</option>
+								<option >Расходный</option>
+							</select>
+						</div>
+						<div class="checkbox">
+							<label><input type="checkbox" class="form-control" id="b_score" value="block">Заблокирован</label>
+						</div>
+						<div class="form-group">
+							<label for="current_score">Сумма вклада</label>
+							<input type="text" class="form-control" id="current_score" placeholder="BYN" 
+							onchange="validData('current_score')">
+						</div>
+						<div class="form-group">
+							<label for="min_balance">Минимальный остаток</label>
+							<input type="text" class="form-control" id="min_balance" placeholder="BYN" 
+							onchange="validData('min_balance')">
+						</div>
+						<div class="form-group hidden">
+							<label for="min_refill">Минимальная сумма пополнения</label>
+							<input type="text" class="form-control" id="min_refill" placeholder="BYN" 
+							onchange="validData('min_refill')">
+						</div>
+						<div class="form-group hidden">
+							<label for="max_refill">Максимальная сумма пополнения</label>
+							<input type="text" class="form-control" id="max_refill" placeholder="BYN" 
+							onchange="validData('max_refill')">
+						</div>
+						<div class="form-group">
+							<label for="term_score">Срок вклада</label>
+							<select class="form-control" id="term_score" onchange="computeTerm()">
+								<option >3 месяца</option>
+								<option >6 месяцев</option>
+								<option >1 год</option>
+								<option >3 года</option>
+							</select>
+						</div>
+						<div class="form-group">
+							<label for="percent">Процентная ставка</label>
+							<input type="text" class="form-control" id="percent" value="1,5%" disabled>
+						</div>
+						<div class="form-group">
+							<label for="date_score">Дата вклада</label>
+							<input type="date" class="form-control" id="date_score" onchange="validData('date_score')">
+						</div>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button class="btn btn-success" id="create_score" onclick="createScore()" disabled>
+							Создать	
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>`
+	const body = document.getElementsByTagName("body")[0];
+	body.innerHTML =str;
+}
 
 function isCreate(bool){
 	create = bool;
 }
 
+
 function upload(){
-	var xhr = new XMLHttpRequest();
-	var upl = [];
+	const xhr = new XMLHttpRequest();
+	let upl = [];
 	for (let i=0; i<Score.getCount(); i++){
 		upl[i] = {
 		number:score[i].getNumber(),
@@ -31,7 +141,7 @@ function upload(){
 }
 
 function download(){
-	var xhr = new XMLHttpRequest();
+	const xhr = new XMLHttpRequest();
 	xhr.open('GET', '/homework3', false);
 	xhr.send();
 	if (xhr.status != 200) {
@@ -39,13 +149,13 @@ function download(){
 	} else {
 	  console.log( xhr.responseText ); // responseText -- текст ответа.
 	}
-	var parse = JSON.parse(xhr.responseText, function(key, value){
+	let parse = JSON.parse(xhr.responseText, function(key, value){
 		if (key == 'date') {
-			var date = new Date(value);
-			var m = date.getMonth() + 1;
-			var d = date.getDate();
-			var mm = (m>9?'':'0') + m;
-			var dd = (d>9?'':'0') + d;
+			let date = new Date(value);
+			let m = date.getMonth() + 1;
+			let d = date.getDate();
+			let mm = (m>9?'':'0') + m;
+			let dd = (d>9?'':'0') + d;
 			value = date.getFullYear() + '-' + mm + '-' + dd;
 		}
 		return value;
@@ -62,28 +172,22 @@ function download(){
 }
 
 function Score (number, type, status, current, term, percent, date){
-	var _number = number;
-	var _type = type;
-	var _status = status;
-	var _current = current;
-	var _term = term;
-	var _percent = percent;
-	var _date = date;
-	this.getNumber = function(){
-		return _number;
-	}
+	let _number = number;
+	let _type = type;
+	let _status = status;
+	let _current = current;
+	let _term = term;
+	let _percent = percent;
+	let _date = date;
+	this.getNumber = () => _number;
 	this.setNumber = function(number){
 		_number = number;
 	}
-	this.getType = function(){
-		return _type;
-	}
+	this.getType = () => _type;
 	this.setType = function(type){
 		_type = type;
 	}
-	this.getStatus = function(){
-		return _status;
-	}
+	this.getStatus = () => _status;
 	this.setStatus = function(status){
 		_status = status;
 	}
@@ -114,14 +218,13 @@ function Score (number, type, status, current, term, percent, date){
 }
 
 Score.counter = 0;
-Score.getCount = function(){
-	return Score.counter;
-}
+Score.getCount = () => Score.counter;
+
 
 function RSScore (number, type, podtip, status, current, minbalance, term, percent, date){
 	Score.call(this);
-	var _podtip = podtip;
-	var _minbalance = minbalance;
+	let _podtip = podtip;
+	let _minbalance = minbalance;
 	this.getPodtip = function(){
 		return _podtip;
 	}
@@ -145,17 +248,13 @@ function RSScore (number, type, podtip, status, current, minbalance, term, perce
 
 function NScore (number, type, status, current, minrefill, maxrefill, term, percent, date){
 	Score.call(this);
-	var _minrefill = minrefill;
-	var _maxrefill = maxrefill;
-	this.getMinrefill = function(){
-		return _minrefill;
-	}
+	let _minrefill = minrefill;
+	let _maxrefill = maxrefill;
+	this.getMinrefill = () => _minrefill;
 	this.setMinrefill = function(minrefill){
 		_minrefill = minrefill;
 	}
-	this.getMaxrefill = function(){
-		return _maxrefill;
-	}
+	this.getMaxrefill = () => _maxrefill;
 	this.setMaxrefill = function(maxrefill){
 		_maxrefill = maxrefill;
 	}
@@ -169,11 +268,11 @@ function NScore (number, type, status, current, minrefill, maxrefill, term, perc
 }
 
 function selectT() {
-	var selected = $('#t_score option:selected').val();
-	var parentPodTip = document.getElementById("pt_score").parentNode.classList;
-	var parentMinBalance = document.getElementById("min_balance").parentNode.classList;
-	var parentMinRefill = document.getElementById("min_refill").parentNode.classList;
-	var parentMaxRefill = document.getElementById("max_refill").parentNode.classList;
+	let selected = $('#t_score option:selected').val();
+	let parentPodTip = document.getElementById("pt_score").parentNode.classList;
+	let parentMinBalance = document.getElementById("min_balance").parentNode.classList;
+	let parentMinRefill = document.getElementById("min_refill").parentNode.classList;
+	let parentMaxRefill = document.getElementById("max_refill").parentNode.classList;
 	if(selected==="Накопительный"){
 		parentPodTip.add("hidden");
 		parentMinBalance.add("hidden");
@@ -189,7 +288,7 @@ function selectT() {
 }
 
 function computeTerm(){
-	var selected = $('#term_score option:selected').val();
+	let selected = $('#term_score option:selected').val();
 	switch(selected){
 		case '3 месяца':
 			$('#percent').val("1,5%");
@@ -207,11 +306,11 @@ function computeTerm(){
 }
 
 function validData(id){ 
-	var obj = document.getElementById(id);
-	var value = obj.value;
-	var parent = obj.parentNode;
-	var chk = false;
-	var reg;
+	let obj = document.getElementById(id);
+	let value = obj.value;
+	const parent = obj.parentNode;
+	let chk = false;
+	let reg;
 	switch(id){
 		case 'n_score':
 			reg = /^[1-9]\d{5}$/;
@@ -265,7 +364,7 @@ function validData(id){
 			chk_date_score = chk;
 			break;
 	}
-	var _create_score = document.getElementById('create_score');
+	let _create_score = document.getElementById('create_score');
 	if($('#t_score option:selected').val()==="Накопительный"){
 		if (chk_n_score && chk_current_score && chk_date_score && chk_min_refill && chk_max_refill){
 			_create_score.disabled = false;
@@ -292,20 +391,22 @@ function drawBorder(parent, status){
 }
 
 function createTableFromDB(obj){
-	var tbody = document.getElementsByTagName('tbody')[0];
-	var row = document.createElement('tr');
+	const tbody = document.getElementsByTagName('tbody')[0];
+	const row = document.createElement('tr');
 	row.id = "id" + obj.number;
-	var td = [];
+	let [...rest]=obj;
+	alert(rest);
+	let td = [];
 	tbody.appendChild(row);
-	for (var i = 0; i < 8; i++){
+	for (let i = 0; i < 8; i++){
 		td[i] = document.createElement('td');
 		row.appendChild(td[i]);
 	}
-		var str = '\
-			<div class="action" onclick="aboutForm(this)" style="color:blue;">Подробнее</div>\
-			<div class="action" onclick="changeForm(this), isCreate(false)" style="color:green;">Редактировать</div>\
-			<div class="action" onclick="deleteForm(this)" style="color:red;">Удалить</div>\
-			';
+		const str = `
+			<div class="action" onclick="aboutForm(this)" style="color:blue;">Подробнее</div>
+			<div class="action" onclick="changeForm(this), isCreate(false)" style="color:green;">Редактировать</div>
+			<div class="action" onclick="deleteForm(this)" style="color:red;">Удалить</div>
+			`;
 		td[0].innerHTML = obj.number;
 		td[1].innerHTML	= obj.type;
 		td[2].innerHTML = obj.status == true ? "Заблокирован": "Активный";
@@ -318,8 +419,8 @@ function createTableFromDB(obj){
 
 function createScore(){
 	if (!create){
-		var tr = document.getElementById(g_id);
-		var td = document.getElementById(g_id).children;
+		let tr = document.getElementById(g_id);
+		let td = document.getElementById(g_id).children;
 		td[0].innerHTML = $('#n_score').val();
 		td[1].innerHTML = $('#t_score').val();
 		td[2].innerHTML = $('#b_score').is(':checked')? "Заблокирован": "Активный";
@@ -328,7 +429,7 @@ function createScore(){
 		td[5].innerHTML = $('#percent').val();
 		td[6].innerHTML = $('#date_score').val();
 		tr.id = "id"+$('#n_score').val();
-		for (var i=0; i<Score.getCount(); i++){
+		for (let i=0; i<Score.getCount(); i++){
 			if (score[i].getNumber()==g_id.substring(2)){//
 				score[i].setNumber($('#n_score').val());
 				score[i].setCurrent($('#current_score').val());
@@ -347,36 +448,45 @@ function createScore(){
 			}
 		}
 	}
-	var _number_score = document.getElementById('n_score').value;
-	var _type_score = document.getElementById('t_score').value;
-	var _status = document.getElementById('b_score').checked;
-	var _current_score = document.getElementById('current_score').value;
-	var _term_score = document.getElementById('term_score').value;
-	var _percent = document.getElementById('percent').value;
-	var _date_score = document.getElementById('date_score').value;
-	var _podtip = document.getElementById('pt_score').value;
-	var _minbalance = document.getElementById('min_balance').value;
-	var _minrefill = document.getElementById('min_refill').value;
-	var _maxrefill = document.getElementById('max_refill').value;
-	var tbody = document.getElementsByTagName('tbody')[0];
-	var arraytable = [_number_score, _type_score, _status, _current_score, _term_score, _percent, _date_score, ""];
+	//деструктуризация массива значений
+	let _form_control = document.getElementsByClassName('form-control');
+	let [_number_score,_type_score,_podtip,_status, _current_score, _minbalance, _minrefill, _maxrefill, _term_score, _percent,_date_score] = _form_control;
+/*	let _number_score = document.getElementById('n_score').value;
+	let _type_score = document.getElementById('t_score').value;
+	let _status = document.getElementById('b_score').checked;
+	let _current_score = document.getElementById('current_score').value;
+	let _term_score = document.getElementById('term_score').value;
+	let _percent = document.getElementById('percent').value;
+	let _date_score = document.getElementById('date_score').value;
+	let _podtip = document.getElementById('pt_score').value;
+	let _minbalance = document.getElementById('min_balance').value;
+	let _minrefill = document.getElementById('min_refill').value;
+	let _maxrefill = document.getElementById('max_refill').value;*/
+	const tbody = document.getElementsByTagName('tbody')[0];
+	let arraytable = [_number_score.value, 
+	_type_score.value, 
+	_status.value, 
+	_current_score.value, 
+	_term_score.value, 
+	_percent.value, 
+	_date_score.value, ""];
 	if (create){
-		if (_type_score === "Расчетный"){
-			score.push(new RSScore(_number_score, _type_score, _podtip, _status, _current_score, _minbalance, _term_score, _percent, _date_score));
+		if (_type_score.value === "Расчетный"){
+			score.push(new RSScore(_number_score.value, _type_score.value, _podtip.value, _status.value, _current_score.value, _minbalance.value, _term_score.value, _percent.value, _date_score.value));
 		} else {
-			score.push(new NScore(_number_score, _type_score, _status, _current_score, _minrefill, _maxrefill, _term_score, _percent, _date_score));
+			score.push(new NScore(_number_score.value, _type_score.value, _status.value, _current_score.value, _minrefill.value, _maxrefill.value, _term_score.value, _percent.value, _date_score.value));
 		}
 		Score.counter++;
-		var row = document.createElement('tr');
-		row.id = "id" + _number_score;
-		var td = [];
+		let row = document.createElement('tr');
+		row.id = "id" + _number_score.value;
+		let td = [];
 		tbody.appendChild(row);
-		for (var i = 0; i < 8; i++){
+		for (let i = 0; i < 8; i++){
 			td[i] = document.createElement('td');
 			td[i].innerHTML = arraytable[i];
 			row.appendChild(td[i]);
 		}
-			var str = '\
+			const str = '\
 				<div class="action" onclick="aboutForm(this)" style="color:blue;">Подробнее</div>\
 				<div class="action" onclick="changeForm(this), isCreate(false)" style="color:green;">Редактировать</div>\
 				<div class="action" onclick="deleteForm(this)" style="color:red;">Удалить</div>\
@@ -404,10 +514,9 @@ function refreshModal(){
 function aboutForm(this_){
 	g_id = $(this_).parent().parent().attr("id");	
 	for (let i=0; i<Score.getCount(); i++){
-		console.log(score[i].getNumber());
 			if (score[i].getNumber()==g_id.substring(2)){
-				var stat = score[i].getStatus()?"Заблокирован":"Активный";
-				var newWin = window.open();
+				let stat = score[i].getStatus()?"Заблокирован":"Активный";
+				const newWin = window.open();
 				newWin.document.write("Номер счета: "+ score[i].getNumber()+"<br>");
 				newWin.document.write("Тип счёта: "+ score[i].getType()+"<br>");
 				if (score[i].getType()=="Расчетный"){	
@@ -428,7 +537,7 @@ function aboutForm(this_){
 }
 
 function changeForm(this_){
-	var parent = $(this_).parent().parent().attr("id");
+	const parent = $(this_).parent().parent().attr("id");
 	g_id = parent;
 	document.getElementById('modal-title').innerHTML = "Редактирование счета: " + parent.substring(2);
 	document.getElementById('create_score').innerHTML = "Сохранить";
@@ -448,7 +557,7 @@ function changeForm(this_){
 }
 
 function deleteForm(this_){
-	var parent = $(this_).parent().parent().attr("id");
+	const parent = $(this_).parent().parent().attr("id");
 	elem = document.getElementById(parent);
 	if(confirm('Вы уверены, что хотите удалить запись?')){
 		elem.remove();
